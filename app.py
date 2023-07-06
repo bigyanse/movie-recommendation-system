@@ -2,6 +2,19 @@ import streamlit as st
 import pickle
 import pandas as pd
 import requests
+import wget
+import os
+
+def remove_file_folder(filename):
+    try:
+        os.remove(filename)
+        print(f"The file '{filename}' has been deleted successfully.")
+    except FileNotFoundError:
+        print(f"The file '{filename}' does not exist.")
+
+remove_file_folder("similarity.pkl")
+remove_file_folder("zsn6wo0r")
+wget.download("https://ufile.io/zsn6wo0r", "similarity.pkl")
 
 def fetch_poster(id):
     api_key = "8cf43ad9c085135b9479ad5cf6bbcbda"

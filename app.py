@@ -2,6 +2,7 @@ import streamlit as st
 import pickle
 import pandas as pd
 import requests
+import gzip
 
 #def remove_file_folder(filename):
 #    try:
@@ -14,6 +15,26 @@ import requests
 #remove_file_folder("zsn6wo0r")
 #wget.download("https://ufile.io/zsn6wo0r", "similarity.pkl")
 
+def compress_pickle(input_filename, output_filename):
+    with open(input_filename, 'rb') as file:
+        data = file.read()
+
+    with gzip.open(output_filename, 'wb') as gz_file:
+        gz_file.write(data)
+
+    print(f"The pickle file '{input_filename}' has been compressed to '{output_filename}'.")
+
+def decompress_pickle(input_filename, output_filename):
+    with gzip.open(input_filename, 'rb') as gz_file:
+        data = gz_file.read()
+
+    with open(output_filename, 'wb') as file:
+        file.write(data)
+
+    print(f"The compressed pickle file '{input_filename}' has been decompressed to '{output_filename}'.")
+
+
+decompress_pickle("similarity.pkl.gz", "similarity.pkl")
 def fetch_poster(id):
     api_key = "8cf43ad9c085135b9479ad5cf6bbcbda"
     response = requests.get(f"https://api.themoviedb.org/3/movie/{id}?api_key={api_key}&language=en-US")
